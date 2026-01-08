@@ -1,0 +1,23 @@
+<nav>
+        <a href="/">Home</a> 
+        <a href="{% url "edit_student" %}">EDIT PROFILE</a> 
+        <a href="{% url 'student_result' %}">VIEW RESULTS</a>
+        <a href="{% url 'student_attendance' %}">VIEW ATTENDANCE</a>
+        <a href="{% url 'student_notice' %}">NOTICE BOARD</a>
+        <a href="{% url 'contact_faculty' %}">CONTACT FACULTY</a>
+        <a href="{% url 'student_logout' %}">LOGOUT</a>
+</nav>
+
+<h1>NOTICE BOARD</h1>
+
+{% if notices %}
+    {% for n in notices %}
+        <div style="border:1px solid black; padding:10px; margin-bottom:10px;">
+            <h3>{{ n.title }}</h3>
+            <p>{{ n.message }}</p>
+            <small><b>Date:</b> {{ n.date }}</small>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>NO NOTICES ARE AVAILABLE.</p>
+{% endif %}

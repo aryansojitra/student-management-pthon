@@ -1,0 +1,31 @@
+<nav>
+        <a href="/">Home</a> 
+        <a href="{% url "edit_student" %}">EDIT PROFILE</a> 
+        <a href="{% url 'student_result' %}">VIEW RESULTS</a>
+        <a href="{% url 'student_attendance' %}">VIEW ATTENDANCE</a>
+        <a href="{% url 'student_notice' %}">NOTICE BOARD</a>
+        <a href="{% url 'contact_faculty' %}">CONTACT FACULTY</a>
+        <a href="{% url 'student_logout' %}">LOGOUT</a>
+</nav>
+
+<h1>EDIT STUDENT</h1>
+<br>
+<br>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Name:</label><br>
+    <input type="text" name="name" value="{{ student.name }}"><br><br>
+
+    <label>DOB:</label><br>
+    <input type="date" name="dob" value="{{ student.dob }}"><br><br>
+
+    <label>Roll Number:</label><br>
+    <input type="text" name="roll_number" value="{{ student.roll_number }}"><br><br>
+
+    <label>Password:</label><br>
+    <input type="password" name="password" value="{{ student.password }}"><br><br>
+
+    <button type="submit">Save Changes</button>
+</form>

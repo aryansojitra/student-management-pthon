@@ -1,0 +1,16 @@
+<nav>
+        <a href="/">Home</a> 
+        <a href="{% url "edit_student" %}">EDIT PROFILE</a> 
+        <a href="{% url 'student_result' %}">VIEW RESULTS</a>
+        <a href="{% url 'student_attendance' %}">VIEW ATTENDANCE</a>
+        <a href="{% url 'student_notice' %}">NOTICE BOARD</a>
+        <a href="{% url 'contact_faculty' %}">CONTACT FACULTY</a>
+        <a href="{% url 'student_logout' %}">LOGOUT</a>
+</nav>
+<h2> send message to {{ faculty.name }} </h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <textarea name="message"></textarea>
+    <button type="submit">Send</button>
+</form>

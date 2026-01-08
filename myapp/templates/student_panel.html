@@ -1,0 +1,22 @@
+<h1>welcome to student panel</h1>
+
+<nav>
+        <a href="/">Home</a> 
+        <a href="{% url "edit_student" %}">EDIT PROFILE</a> 
+        <a href="{% url 'student_result' %}">VIEW RESULTS</a>
+        <a href="{% url 'student_attendance' %}">VIEW ATTENDANCE</a>
+        <a href="{% url 'student_notice' %}">NOTICE BOARD</a>
+        <a href="{% url 'contact_faculty' %}">CONTACT FACULTY</a>
+        <a href="{% url 'student_logout' %}">LOGOUT</a>
+</nav>
+
+<h3>Your Information:</h3>
+<p><b>Name:</b> {{ student.name }}</p>
+<p><b>Roll Number:</b> {{ student.roll_number }}</p>
+<p><b>Date Of Birth:</b> {{ student.dob }}</p>
+<p><b>Department:</b> {{ student.department.name }}</p>
+<p><b>Password:</b> {{ student.password }}</p>
+
+
+
+
