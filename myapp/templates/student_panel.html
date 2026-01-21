@@ -1,21 +1,31 @@
-<h1>welcome to student panel</h1>
+{% extends "base.html" %}
 
-<nav>
-        <a href="/">Home</a> 
-        <a href="{% url "edit_student" %}">EDIT PROFILE</a> 
-        <a href="{% url 'student_result' %}">VIEW RESULTS</a>
-        <a href="{% url 'student_attendance' %}">VIEW ATTENDANCE</a>
-        <a href="{% url 'student_notice' %}">NOTICE BOARD</a>
-        <a href="{% url 'contact_faculty' %}">CONTACT FACULTY</a>
-        <a href="{% url 'student_logout' %}">LOGOUT</a>
-</nav>
+{% block content %}
+<div class="grid">
+        <div class="card">
+                <h2>Welcome, {{ student.name }}</h2>
+                <p class="muted">Your student dashboard.</p>
+                <div class="badge-row">
+                        <span class="pill">Roll: {{ student.roll_number }}</span>
+                        <span class="pill">DOB: {{ student.dob }}</span>
+                        <span class="pill">Dept: {{ student.department.name }}</span>
+                        <span class="pill">Semester: {{ student.semester }}</span>
+                </div>
+        </div>
 
-<h3>Your Information:</h3>
-<p><b>Name:</b> {{ student.name }}</p>
-<p><b>Roll Number:</b> {{ student.roll_number }}</p>
-<p><b>Date Of Birth:</b> {{ student.dob }}</p>
-<p><b>Department:</b> {{ student.department.name }}</p>
-<p><b>Password:</b> {{ student.password }}</p>
+        <div class="card">
+                <h3>Quick Actions</h3>
+                <div class="stack">
+                        <a class="btn" href="{% url 'edit_student' %}">Edit Profile</a>
+                        <a class="btn secondary" href="{% url 'student_result' %}">View Results</a>
+                        <a class="btn secondary" href="{% url 'student_attendance' %}">View Attendance</a>
+                        <a class="btn secondary" href="{% url 'student_notice' %}">Notice Board</a>
+                        <a class="btn secondary" href="{% url 'contact_faculty' %}">Contact Faculty</a>
+                        <a class="btn secondary" href="{% url 'student_logout' %}">Logout</a>
+                </div>
+        </div>
+</div>
+{% endblock %}
 
 
 

@@ -1,33 +1,35 @@
-<nav>
-        <a href="/">Home</a> 
-        <a href="{% url "edit_student" %}">EDIT PROFILE</a> 
-        <a href="{% url 'student_result' %}">VIEW RESULTS</a>
-        <a href="{% url 'student_attendance' %}">VIEW ATTENDANCE</a>
-        <a href="{% url 'student_notice' %}">NOTICE BOARD</a>
-        <a href="{% url 'contact_faculty' %}">CONTACT FACULTY</a>
-        <a href="{% url 'student_logout' %}">LOGOUT</a>
-</nav>
+{% extends "base.html" %}
 
-<h1>Today's Attendance - {{ today_date }}</h1>
-<table border="1" cellpadding="8">
-    <tr>
-        <th>LECTURES</th>
-        <th>STATUS</th>
-    </tr>
-
-    <tr>
-    </tr>
-        {% for a in today_attendance %}
-    <tr>
-        <td>Lecture {{ a.lecture.number }}</td>
-        <td>
-            {% if a.present %}
-                Present
-            {% else %}
-                Absent
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+{% block content %}
+<div class="card">
+    <h2>Today's Attendance</h2>
+    <p class="muted">Date: {{ today }}</p>
+    {% if today_attendance %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Lecture</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in today_attendance %}
+                <tr>
+                    <td>Lecture {{ a.lecture.number }}</td>
+                    <td>
+                        {% if a.present %}
+                            <span class="pill success">Present</span>
+                        {% else %}
+                            <span class="pill danger">Absent</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="muted">No attendance records for today.</p>
+    {% endif %}
+</div>
+{% endblock %}
 

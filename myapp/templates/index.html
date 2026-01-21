@@ -1,12 +1,55 @@
-<html>
-    </html>
-    <head>
-        <title>My App</title>
-    </head>
-    <body>
-        <nav>
-            <a href="/">Home</a> |
-            <a href="{% url "student_login" %}">Student Login</a> 
-        </nav>
-    </body> 
-</html>
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    .hero {
+        background: linear-gradient(135deg, rgba(56,189,248,0.18), rgba(56,189,248,0.05));
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 24px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
+    }
+    .hero h1 { font-size: 28px; margin: 0 0 8px; }
+    .hero p { color: var(--muted); line-height: 1.5; }
+    .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .grid-home { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="stack">
+        <h1>Welcome to the Student Portal</h1>
+        <p>Access results, attendance, notices, and reach your faculty in one place.</p>
+        <div class="cta">
+            <a class="btn" href="{% url 'student_login' %}">Student Login</a>
+            <a class="btn secondary" href="/admin/">Admin</a>
+        </div>
+    </div>
+    <div class="card">
+        <h3>Need an account?</h3>
+        <p class="muted">Ask the administrator to create a student profile with your name and password.</p>
+    </div>
+</section>
+
+<section class="grid-home">
+    <div class="card">
+        <h3>Results</h3>
+        <p class="muted">Check marks, percentages, and grades per semester.</p>
+    </div>
+    <div class="card">
+        <h3>Attendance</h3>
+        <p class="muted">See today’s attendance and lecture-wise records.</p>
+    </div>
+    <div class="card">
+        <h3>Notices</h3>
+        <p class="muted">Stay updated with department notices by semester.</p>
+    </div>
+    <div class="card">
+        <h3>Faculty</h3>
+        <p class="muted">Message faculty members directly from your dashboard.</p>
+    </div>
+</section>
+{% endblock %}

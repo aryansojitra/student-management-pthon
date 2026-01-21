@@ -1,24 +1,30 @@
-<nav>
-        <a href="/">Home</a> 
-        <a href="{% url "edit_student" %}">EDIT PROFILE</a> 
-        <a href="{% url 'student_result' %}">VIEW RESULTS</a>
-        <a href="{% url 'student_attendance' %}">VIEW ATTENDANCE</a>
-        <a href="{% url 'student_notice' %}">NOTICE BOARD</a>
-        <a href="{% url 'contact_faculty' %}">CONTACT FACULTY</a>
-        <a href="{% url 'student_logout' %}">LOGOUT</a>
-</nav>
+{% extends "base.html" %}
 
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Subject</th>
-        <th>Action</th>
-    </tr>
-    {%for f in faculty_list%}
-    <tr>
-        <td>{{f.name}}</td>
-        <td>{{f.subject}}</td>
-        <td><a href="{%url 'send_message' f.id%}">Send Message</a></td>
-    </tr>
-    {%endfor%}
-</table>
+{% block content %}
+<div class="card">
+    <h2>Contact Faculty</h2>
+    <p class="muted">Select a faculty member to send a message.</p>
+    {% if faculty_list %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Subject</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for f in faculty_list %}
+                <tr>
+                    <td>{{ f.name }}</td>
+                    <td>{{ f.subject }}</td>
+                    <td><a class="btn secondary" href="{% url 'send_message' f.id %}">Send Message</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="muted">No faculty listed for your department.</p>
+    {% endif %}
+</div>
+{% endblock %}

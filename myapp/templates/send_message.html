@@ -1,16 +1,18 @@
-<nav>
-        <a href="/">Home</a> 
-        <a href="{% url "edit_student" %}">EDIT PROFILE</a> 
-        <a href="{% url 'student_result' %}">VIEW RESULTS</a>
-        <a href="{% url 'student_attendance' %}">VIEW ATTENDANCE</a>
-        <a href="{% url 'student_notice' %}">NOTICE BOARD</a>
-        <a href="{% url 'contact_faculty' %}">CONTACT FACULTY</a>
-        <a href="{% url 'student_logout' %}">LOGOUT</a>
-</nav>
-<h2> send message to {{ faculty.name }} </h2>
+{% extends "base.html" %}
 
-<form method="POST">
-    {% csrf_token %}
-    <textarea name="message"></textarea>
-    <button type="submit">Send</button>
-</form>
+{% block content %}
+<div class="card">
+    <h2>Message {{ faculty.name }}</h2>
+    <p class="muted">Subject: {{ faculty.subject }}</p>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="stack">
+            <div>
+                <label>Message</label>
+                <textarea name="message" placeholder="Write your message" required></textarea>
+            </div>
+            <button class="btn" type="submit">Send</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

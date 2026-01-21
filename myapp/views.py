@@ -54,6 +54,8 @@ def edit_student(request):
     return render(request,'edit_student.html',{'student':student,'error':error})
 
 def student_result(request):
+    if 'student_id' not in request.session:
+        return redirect('student_login')
     student = Student.objects.get(id=request.session['student_id'])
     results = Result.objects.filter(student=student)
     return render(request, 'student_result.html', {'results': results})
@@ -78,10 +80,13 @@ def student_attendance(request):
         {
             'student': student,
             'today_attendance': today_attendance,
+            'today': today,
         }
     )
 
 def student_notice(request):
+    if 'student_id' not in request.session:
+        return redirect('student_login')
     student = Student.objects.get(id=request.session['student_id'])
 
     notices = Notice.objects.filter(
@@ -96,11 +101,15 @@ def student_notice(request):
 
 
 def contact_faculty(request):
+    if 'student_id' not in request.session:
+        return redirect('student_login')
     student=Student.objects.get(id=request.session['student_id'])
     faculty_list=Faculty.objects.filter(department=student.department)
     return render(request,'contact_faculty.html',{'student':student,'faculty_list':faculty_list})
 
 def send_message(request,faculty_id):
+    if 'student_id' not in request.session:
+        return redirect('student_login')
     student=Student.objects.get(id=request.session['student_id'])
     faculty=Faculty.objects.get(id=faculty_id)
     
