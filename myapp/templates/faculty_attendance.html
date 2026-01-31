@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Faculty Attendance Management</h2>
+<form method="post">
+    {% csrf_token %}
+    <label for="student_id">Student:</label>
+    <select name="student_id" id="student_id">
+        {% for student in students %}
+        <option value="{{ student.id }}">{{ student.name }}</option>
+        {% endfor %}
+    </select><br>
+    <label for="lecture_id">Lecture:</label>
+    <select name="lecture_id" id="lecture_id">
+        {% for lecture in lectures %}
+        <option value="{{ lecture.id }}">Lecture {{ lecture.number }}</option>
+        {% endfor %}
+    </select><br>
+    <label for="date">Date:</label>
+    <input type="date" name="date" id="date" required><br>
+    <label for="present">Present:</label>
+    <input type="checkbox" name="present" id="present"><br>
+    <button type="submit">Save Attendance</button>
+</form>
+<h3>Attendance Records</h3>
+<table border="1">
+    <tr>
+        <th>Student</th>
+        <th>Lecture</th>
+        <th>Date</th>
+        <th>Present</th>
+    </tr>
+    {% for att in attendances %}
+    <tr>
+        <td>{{ att.student.name }}</td>
+        <td>{{ att.lecture.number }}</td>
+        <td>{{ att.date }}</td>
+        <td>{{ att.present|yesno:"Yes,No" }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

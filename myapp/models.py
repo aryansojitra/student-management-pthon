@@ -78,3 +78,11 @@ class ContactMessage(models.Model):
     faculty=models.ForeignKey(Faculty, on_delete=models.CASCADE)
     message=models.TextField()
     date=models.DateTimeField(auto_now_add=True)
+
+# Link Django User to Faculty for authentication
+from django.contrib.auth.models import User
+class FacultyProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='faculty_profile')
+    faculty = models.OneToOneField(Faculty, on_delete=models.CASCADE, related_name='profile')
+    def __str__(self):
+        return self.faculty.name

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Messages from Students</h2>
+<table border="1">
+    <tr>
+        <th>Student</th>
+        <th>Message</th>
+        <th>Date</th>
+    </tr>
+    {% for msg in messages %}
+    <tr>
+        <td>{{ msg.student.name }}</td>
+        <td>{{ msg.message }}</td>
+        <td>{{ msg.date }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

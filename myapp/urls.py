@@ -14,4 +14,9 @@ urlpatterns = [
     path('student/notice/',student_notice,name='student_notice'),
     path('student/contact-faculty/',contact_faculty,name='contact_faculty'),
     path('student/send-message/<int:faculty_id>/',send_message,name='send_message'),
+    path('faculty/login/', faculty_login, name='faculty_login'),
+    path('faculty/dashboard/', faculty_dashboard, name='faculty_dashboard'),
+    path('faculty/attendance/', faculty_attendance, name='faculty_attendance'),
+    path('faculty/notice/', faculty_notice, name='faculty_notice'),
+    path('faculty/messages/', faculty_messages, name='faculty_messages'),
 ]

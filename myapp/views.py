@@ -1,7 +1,12 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from .models import *
 from datetime import date
-# Create your views here.
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+# Faculty authentication helpers
+def is_faculty(user):
+    return user.is_authenticated and hasattr(user, 'faculty_profile')
 def index(request):
     return render(request, 'index.html')
 
@@ -123,3 +128,78 @@ def send_message(request,faculty_id):
         )   
         return redirect('contact_faculty')
     return render(request,'send_message.html',{'student':student,'faculty':faculty})
+
+
+def faculty_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None and hasattr(user, 'faculty_profile'):
+            login(request, user)
+            return redirect('faculty_dashboard')
+        else:
+            return render(request, 'faculty_login.html', {'error': 'Invalid credentials'})
+    return render(request, 'faculty_login.html')
+
+@login_required(login_url='/faculty/login/')
+@user_passes_test(is_faculty, login_url='/faculty/login/')
+def faculty_dashboard(request):
+    faculty = request.user.faculty_profile
+    return render(request, 'faculty_dashboard.html', {'faculty': faculty})
+
+@login_required(login_url='/faculty/login/')
+@user_passes_test(is_faculty, login_url='/faculty/login/')
+def faculty_attendance(request):
+    faculty = request.user.faculty_profile.faculty
+    students = Student.objects.filter(department=faculty.department)
+    lectures = Lectures.objects.all()
+    if request.method == 'POST':
+        student_id = request.POST.get('student_id')
+        lecture_id = request.POST.get('lecture_id')
+        present = request.POST.get('present') == 'on'
+        date = request.POST.get('date')
+        student = Student.objects.get(id=student_id)
+        lecture = Lectures.objects.get(id=lecture_id)
+        attendance, created = Attendances.objects.update_or_create(
+            student=student, lecture=lecture, date=date,
+            defaults={'present': present}
+        )
+    attendances = Attendances.objects.filter(student__department=faculty.department)
+    return render(request, 'faculty_attendance.html', {
+        'faculty': faculty,
+        'students': students,
+        'lectures': lectures,
+        'attendances': attendances
+    })
+
+@login_required(login_url='/faculty/login/')
+@user_passes_test(is_faculty, login_url='/faculty/login/')
+def faculty_notice(request):
+    faculty = request.user.faculty_profile.faculty
+    notices = Notice.objects.filter(department=faculty.department)
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        message = request.POST.get('message')
+        semester = request.POST.get('semester')
+        Notice.objects.create(
+            title=title,
+            message=message,
+            department=faculty.department,
+            semester=semester
+        )
+        return redirect('faculty_notice')
+    return render(request, 'faculty_notice.html', {
+        'faculty': faculty,
+        'notices': notices
+    })
+
+@login_required(login_url='/faculty/login/')
+@user_passes_test(is_faculty, login_url='/faculty/login/')
+def faculty_messages(request):
+    faculty = request.user.faculty_profile.faculty
+    messages = ContactMessage.objects.filter(faculty=faculty).order_by('-date')
+    return render(request, 'faculty_messages.html', {
+        'faculty': faculty,
+        'messages': messages
+    })
